@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 
 module.exports = {
     logout: (req, res) => {
@@ -32,7 +32,7 @@ module.exports = {
         }
         function storeUserInfoInDatabase (userInfoResponse){
             const userData = userInfoResponse.data;
-            console.log('userData', userData)
+            console.log('userData, about to get user', userData)
             return req.app.get('db').get_user({auth0Id: userData.sub})
             .then(users => {
                 if (users.length){
@@ -40,6 +40,7 @@ module.exports = {
                     req.session.user = user;
                     res.redirect('/cool-couches');
                 } else {
+                    console.log('about to create user')
                     return req.app.get('db').create_user({
                         auth0_id: userData.sub,
                         email: userData.email,

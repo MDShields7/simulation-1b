@@ -1,1 +1,1 @@
-INSERT INTO users (auth0_id, email, name, picture) VALUES (${auth0_id}, ${email}, ${name}, ${price}) RETURNING *
+INSERT INTO fullstack_review_users (auth0_id, email, name, picture) VALUES (${auth0_id}, ${email}, ${name}, ${picture}) RETURNING *

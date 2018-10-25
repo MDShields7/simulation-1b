@@ -1,1 +1,1 @@
-SELECT * FROM users WHERE auth0_id = ${auth0_id};
+SELECT * FROM fullstack_review_users WHERE auth0_id = ${auth0Id};

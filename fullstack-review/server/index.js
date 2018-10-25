@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const massive = require('massive');
 const couchesController = require('./couchesController');
 const session = require('express-session')
+const userController = require('./userController')
 const authController = require('./authController')
 require('dotenv').config()
 
@@ -22,10 +23,10 @@ massive(process.env.CONNECTION_STRING).then (database => {
 
 app.get('/api/me', userController.getUserData);
 app.post('/api/logout', authController.logout);
-app.get('auth/callback', authController.handleCallback);
+app.get('/auth/callback', authController.handleCallback);
 
 app.get('/api/couches', couchesController.getCouches)
-app.post('/api/couches', couchesController.postCouches)
+app.post('/api/couches', couchesController.postCouch)
 
 const PORT = 4000;
 app.listen(PORT, () => {
