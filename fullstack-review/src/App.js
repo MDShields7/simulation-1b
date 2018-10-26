@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
+// import axios from 'axios';
 // import logo from './logo.svg';
 import './App.css';
+import routes from './router';
+import Navbar from './components/Navbar/Navbar'
 
 class App extends Component {
-  login = () => {
-    const redirectUri = encodeURIComponent(window.location.origin + '/auth/callback');
-    const url = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/authorize?client_id=${process.env.REACT_APP_AUTH0_CLIENT_ID}&scope=openid%20profile%20email&redirect_uri=${redirectUri}&response_type=code`;
-    window.location = url;
-  }
+  // login = () => {
+
+
+
+
   render() {
+
+
     return (
       <div className="App">
-      <button onClick={this.login}>Login</button>
+        <Navbar/>
+        {routes}
       </div>
     );
   }

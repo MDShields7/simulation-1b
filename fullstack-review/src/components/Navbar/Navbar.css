@@ -1,0 +1,27 @@
+/* NavBar.css  */
+header {
+ /* height: 100vh; */
+ width: 150px;
+ background: lightgray;
+ display: flex;
+ flex-direction: column;
+}
+​
+header div:first-child {
+ background: darkgray;
+}
+​
+header div {
+ text-align: center;
+ padding: 20px;
+}
+​
+header div a {
+ text-decoration: none;
+ color: black;
+}
+​
+header div:hover {
+ background: darkgray;
+ cursor: pointer;
+}
