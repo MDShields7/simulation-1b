@@ -13,12 +13,13 @@ massive(process.env.CONNECTION_STRING).then (database => {
   console.log('error with massive', error)
 })
 
-app.get('/api/TrivSet', controller.getTrivSet)
+app.get('/api/TrivSet', controller.getTrivSet) //FUNCTIONS
+app.get('/api/MyTrivSet', controller.getMyTrivSet) //FUNCTIONS
+app.get('/api/MyTrivSetCreated', controller.getMyTrivSet) //IN PROGRESS
+app.post('/api/TrivSet', controller.postTrivSet) //FUNCTIONS
+app.post('/api/TrivCreator', controller.postTrivCreator) //FUNCTIONS
 
-  // console.log(controller.getTrivSet)
-  // console.log('invoked',controller.getTrivSet())
-  // console.log('controller request finished')
-// app.post('/api/TrivSet', controller.postTrivTrivSet)
+
 // app.put('/api/TrivSet/:id', controller.putTrivSet)
 // app.delete('/api/TrivSet/:id', controller.deleteTrivSet)
 

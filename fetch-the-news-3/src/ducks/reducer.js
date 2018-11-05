@@ -9,7 +9,8 @@ const initialState = {
   // user: '',             // User { id:#, avName:'', avPhoto:'url' }
   // userList: [],         // List of playing users 
   // userScoreList: [],    // Scores - only party mode
-  newsAllList: {},      // Lists available to play
+  newsAllList: [],      // Lists available to play
+  newsMyList: [],      // Lists available to play
   // newsPlayingList: [],  // List played in party mode
   // avatarList: [],       // Hard-coded items
   //    TRIVIA LIST?????
@@ -25,6 +26,7 @@ const initialState = {
   const UPDATE_USER_LIST = 'UPDATE_USER_LIST';
   const UPDATE_USER_SCORE_LIST = 'UPDATE_USER_SCORE_LIST';
   const UPDATE_NEWS_ALL_LIST = 'NEWS_ALL_LIST';
+  const UPDATE_NEWS_MY_LIST = 'NEWS_MY_LIST';
   const UPDATE_NEWS_PLAYING_LIST = 'NEWS_PLAYING_LIST';
   
   function reducer( state = initialState, action){
@@ -51,6 +53,8 @@ const initialState = {
             return Object.assign({}, state, {userScoreList: action.payload}) 
         case UPDATE_NEWS_ALL_LIST:
             return Object.assign({}, state, {newsAllList: action.payload}) 
+        case UPDATE_NEWS_MY_LIST:
+            return Object.assign({}, state, {newsMyList: action.payload}) 
         case UPDATE_NEWS_PLAYING_LIST:
             return Object.assign({}, state, {newsPlayingList: action.payload}) 
         default: return state;
@@ -120,6 +124,12 @@ const initialState = {
     return {
         type: UPDATE_NEWS_ALL_LIST,
         payload: newsAllList
+    }
+  }
+  export function updateNewsMyList ( newsMyList ){
+    return {
+        type: UPDATE_NEWS_MY_LIST,
+        payload: newsMyList
     }
   }
   export function updateNewsPlayingList ( newsPlayingList ){
