@@ -15,7 +15,7 @@ massive(process.env.CONNECTION_STRING).then (database => {
 
 app.get('/api/TrivSet', controller.getTrivSet) //FUNCTIONS
 app.get('/api/MyTrivSet', controller.getMyTrivSet) //FUNCTIONS
-app.get('/api/MyTrivSetCreated', controller.getMyTrivSet) //IN PROGRESS
+app.get('/api/MyTrivSetCreated', controller.getMyTrivCreated) //IN PROGRESS
 app.post('/api/TrivSet', controller.postTrivSet) //FUNCTIONS
 app.post('/api/TrivCreator', controller.postTrivCreator) //FUNCTIONS
 

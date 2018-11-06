@@ -9,8 +9,18 @@ module.exports = {
   },
   getMyTrivSet: (req, res) => {
     const{userId} = req.query;
-    console.log(userId);
+    // console.log(userId);
     req.app.get('db').get_my_triv_set({userId:userId})
+    .then(set => {res.json(set)})
+    .catch(error => {
+        console.log('error in getTrivSet', error);
+    res.status(500).json({message: 'GetTrivSet error'})
+    })
+  },
+  getMyTrivCreated: (req, res) => {
+    const{userId} = req.query;
+    // console.log(userId);
+    req.app.get('db').get_my_triv_created({userId:userId})
     .then(set => {res.json(set)})
     .catch(error => {
         console.log('error in getTrivSet', error);

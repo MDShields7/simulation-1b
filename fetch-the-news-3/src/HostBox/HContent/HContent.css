@@ -1,0 +1,19 @@
+.TrivBox {
+  margin: 20 auto;
+  align-items: center;
+  /* box-sizing: border-box; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+/* 
+.TrivBox {
+  width: 400px;
+  height: 300px;
+  background: lightseagreen;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+} 
+*/

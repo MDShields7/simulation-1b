@@ -1,4 +1,4 @@
-SELECT (user_id, user_name, cat_id, cat_name)
+SELECT *
 FROM ftn_users u
 JOIN ftn_trivcreators tcr
 ON u.user_id = tcr.tcr_user_id

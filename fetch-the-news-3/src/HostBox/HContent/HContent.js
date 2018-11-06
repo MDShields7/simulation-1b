@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {updateNewsAllList, updateNewsMyList} from '../../ducks/reducer';
+import {updateNewsAllList, updateNewsMyList, updateNewsMyListCreated} from '../../ducks/reducer';
 import HCSet from './HContentSet';
+import './HContent.css'
 
 class HContent extends Component {
   constructor(props){
@@ -15,32 +16,34 @@ class HContent extends Component {
     }
   }
   componentDidMount = () => {
-    // this.getTriviaSet();
     this.getMyTriviaSet();
+    this.getTriviaSet();
+    this.getMyTriviaCreated();
   }
   getTriviaSet = () => {
     axios.get('/api/TrivSet').then(res => {
       this.props.updateNewsAllList(res.data)
-      console.log('HContent, this.props.newAllList', this.props.newsAllList)
+      // console.log('HContent, this.props.newAllList', this.props.newsAllList)
     })
     .catch(err => console.log('error at get TriviaSet', err))
   }
   getMyTriviaSet = () => {
     axios.get('/api/MyTrivSet', {params:{userId:this.state.userId}}).then(res => {
       this.props.updateNewsMyList(res.data)
-      console.log('HContent, this.props.newsMyList', this.props.newsMyList)
+      // console.log('HContent, this.props.newsMyList', this.props.newsMyList)
     })
     .catch(err => console.log('error at get TriviaSet', err))
   }
   getMyTriviaCreated = () => {
+    // axios.get(`/api/MyTrivSetCreated/userId=${this.state.userId}`)
     axios.get('/api/MyTrivSetCreated', {params:{userId:this.state.userId}}).then(res => {
-      this.props.updateNewsMyList(res.data)
-      console.log('HContent, this.props.newsMyList', this.props.newsMyList)
+      this.props.updateNewsMyListCreated(res.data)
+      // console.log('HContent, this.props.newsMyListCreated', this.props.newsMyListCreated)
     })
     .catch(err => console.log('error at get TriviaSet', err))
   }
   createTriviaSet = () => {
-    console.log('createTriviaSet w/ req.body',this.state.trivSetName)
+    // console.log('createTriviaSet w/ req.body',this.state.trivSetName)
     axios.post('/api/TrivSet', {trivSetName: this.state.trivSetName})
     .then(res => { 
       this.createTrivCreator(res.data[0]['cat_id'])
@@ -49,18 +52,12 @@ class HContent extends Component {
     }
   createTrivCreator = (catId) => {
     const{userId} = this.state;
-    console.log('createTrivCreator, userId:', userId,'catId:', catId)
+    // console.log('createTrivCreator, userId:', userId,'catId:', catId)
     axios.post('/api/TrivCreator', {tcr_user_id: userId, tcr_cat_id: catId})
       .then(res => {console.log('createTriviaCreator, res.data',res.data)})
       .catch(err => console.log('error at post TriviaSet', err))
   }
-  editTriviaSet = (itemId) => {
-      axios.put(`/api/TrivSet`, {userId: this.state.userId,itemId:itemId})
-  }
-  deleteTriviaSet = (myId, setId) => {
 
-    axios.delete(`/api/TrivSet}`)
-  }
   createQASet = (qaItem) => {
     axios.post('/api/TrivSet', {qaItem}).then(res => {
     console.log('HContent.js, createQASet, response (take id and post to QACreator):', res)
@@ -73,44 +70,37 @@ class HContent extends Component {
     const value = e.target.value
     this.setState({[name]: value})
   }
+  makeTrue = () => {
+    return true;
+  }
 
 
   render() {
     const{newsAllList,newsMyList,userId} = this.props;
-    
-    // const TrivSetView = newsAllList.map(elem => (
-    //   <div key={elem.cat_id}>
-    //     <HCSet
-    //     id={elem.cat_id}
-    //     name={elem.cat_name}
-    //     />
-    //     {/* { userId === elem.cat_id ?
-    //       <button onClick={() => this.editTriviaSet(elem.cat_id)}>Edit</button> : <div>Not Editable</div>
-    //     } */}
-    //   </div>
-    // ));
-    const MyTrivSetView = newsMyList.map(elem => (
+
+    const MyTrivSetView = newsMyList.map(elem =>(
       <div key={elem.cat_id}>
         <HCSet
-        id={elem.cat_id}
-        name={elem.cat_name}
+        elemId={elem.cat_id}
+        elemName={elem.cat_name}
         />
-        { userId === elem.cat_id ?
-          <button onClick={() => this.editTriviaSet(elem.cat_id)}>Edit</button> : <div>Not Editable</div>
-        }
       </div>
     ));
     const{trivSetName} = this.state;
     console.log('HContent props', this.props)
+
     return (
       <div>
         <h1>Host Content</h1>
         {/* ALL TRIVIA SETS
         {TrivSetView} */}
         MY TRIVIA SETS
-        {MyTrivSetView}
+        <div className='TrivBox'> 
+          {MyTrivSetView}
+        </div>
         <button onClick={this.getTriviaSet}>Get All Trivia Sets Ever Made</button>
         <button onClick={this.getMyTriviaSet}>Get My Trivia Sets (made & collected by me)</button>
+        <button onClick={this.getMyTriviaCreated}>Get Trivia Sets Created by me</button>
         <div>
           <div>Create a new trivia set</div>
           <input type="text" name='trivSetName' value={trivSetName} onChange={this.handleChange}/>
@@ -121,21 +111,11 @@ class HContent extends Component {
   }
 }
 function mapStateToProps( state ){
-  const {newsAllList, newsMyList} = state;
+  const {newsAllList, newsMyList, newsMyListCreated} = state;
   return {
     newsAllList,
-    newsMyList
+    newsMyList,
+    newsMyListCreated
   };
 }
-export default connect (mapStateToProps, {updateNewsAllList, updateNewsMyList})(HContent); 
-
-// arrayFromObj(obj){
-//   let newArr = ['hi', 'bye'];
-//   // console.log(newArr, typeof newArr)
-//   for (let key in obj){
-//     // console.log(key, obj[key])
-//     newArr.push(obj[key])
-//   }
-//   console.log(newArr, typeof newArr)
-//   return newArr
-// }
+export default connect (mapStateToProps, {updateNewsAllList, updateNewsMyList,updateNewsMyListCreated})(HContent); 
