@@ -96,7 +96,7 @@ class HContent extends Component {
 
   render() {
     const {handleSelect} = this;
-    const {trivSetToMap} = this.state;
+    const {trivSetToMap,trivSetName} = this.state;
     
     const trivBtns = [
       {value: 'newsAllList', text:'All Trivia'},
@@ -107,21 +107,22 @@ class HContent extends Component {
       return <button key={elem.name} value={elem.value} className={elem.value === this.state.trivSwitch ? 'btn' : 'btn-off'}onClick={handleSelect}>{elem.text}</button>
     })
     
-    const{newsAllList,newsMyList,userId} = this.props;
-    console.log('right before my array, newsAllList', newsAllList)
-    console.log('trivSetToMap',trivSetToMap, typeof trivSetToMap)
-    const myTrivSetView = trivSetToMap.map(elem =>(
-      <div key={elem.cat_id}>
-        <HCSet
-        elemId={elem.cat_id}
-        elemName={elem.cat_name}
-        />
-      </div>
-    ));
-    const{trivSetName} = this.state;
-    console.log('HContent props', this.props)
-    console.log('HContent state', this.state)
+    // const{newsAllList,newsMyList,userId} = this.props;
+    // console.log('right before my array, newsAllList', newsAllList)
+    // console.log('trivSetToMap',trivSetToMap, typeof trivSetToMap)
+    // const myTrivSetView = trivSetToMap.map(elem =>(
+    //   <div key={elem.cat_id}>
+    //     <HCSet
+    //     elemId={elem.cat_id}
+    //     elemName={elem.cat_name}
+    //     />
+    //   </div>
+    // ));
+    // console.log('HContent props', this.props)
+    // console.log('HContent state', this.state)\
+    // const HCSet =  <HCSet trivArray={trivSetToMap}/>
 
+    // console.log('=============>', trivSetToMap)
     return (
       <div className='HContent'>
         {/* <button onClick={this.propsBtn}>Check HContent.js Props</button> */}
@@ -129,7 +130,7 @@ class HContent extends Component {
           {triviaButtons}
         </div>
         <div className='TrivBox'> 
-          {myTrivSetView}
+          <HCSet trivArray={trivSetToMap}/>
         </div>
 
         <div>
