@@ -55,7 +55,19 @@ module.exports = {
       res.status(500).json({message: 'postTrivCreator error'})
       })
   },
-
+  editMyTrivSet: (req,res) => {
+    const dbInstance = req.app.get('db');
+    const {catId}=req.params;
+    const {catName}=req.body;
+    // console.log('controller editMyTrivSet', tcr_user_id, tcr_cat_id)
+    dbInstance.edit_my_triv_set( [catId, catName] )
+    .then(list => {res.json(list);
+      console.log('creator response is ', list)})
+      .catch(error => {
+          console.log('error in postTrivCreator', error);
+      res.status(500).json({message: 'editMyTrivCreator error'})
+      })
+  }
 
 
 }

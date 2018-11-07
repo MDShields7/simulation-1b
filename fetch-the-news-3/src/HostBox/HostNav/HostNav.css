@@ -1,5 +1,6 @@
 .HostNav {
   width:100%;
+
   background-color: #222222;
   height:80px;
   display: flex;
@@ -8,6 +9,15 @@
   align-items: center;
 }
 .NavGroup {
+  max-width: 1000px;
+  display: flex;
+  /* flex-direction: column; */
+  /* justify-items: center; */
+  /* display: flex; */
+  /* margin: 0 auto; */
+
+}
+.NavLink {
   display: flex;
   flex-direction: row;
   justify-content: space-around;

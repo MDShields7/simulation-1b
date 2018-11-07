@@ -11,7 +11,7 @@ class App extends Component {
     super(props)
   }
   componentDidMount = () => {
-    console.log(isMobile)
+    // console.log(isMobile)
     this.props.updateMobileDevice(isMobile)
   }
   propsBtn = () => {
@@ -27,14 +27,14 @@ class App extends Component {
         return <HBox joinHostRequest={this.joinHostRequest}/> //desktop devices given Host component
       }
     }
-    console.log(this.props)
+    // console.log(this.props)
     return (
       <div className="App">
-        <div className='AppStuff'>
+        {/* <div className='AppStuff'>
           <h4>App</h4>
           <div>mobile device: {String(this.props.mobileDevice)}</div>
           <button onClick={this.propsBtn}>Check App.js Props</button>
-        </div>
+        </div> */}
         <div >{viewType()}</div>
       </div>
     );

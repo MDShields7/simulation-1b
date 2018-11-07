@@ -11,18 +11,31 @@ class HContent extends Component {
     this.state = {
       //temporary stuff
       //createTriviaSetId:
+      trivSwitch: 'newsAllList', // Trivia List buttons on/off assignment
       trivSetName: '',
+      trivSetToMap: props.newsAllList,
       userId: 2,
     }
   }
   componentDidMount = () => {
-    this.getMyTriviaSet();
     this.getTriviaSet();
-    this.getMyTriviaCreated();
+  //   this.getTriviaSet();
+  //   this.getMyTriviaCreated();
+    console.log('componentDidMount, newsAllList', this.props.newsAllList)
+  }
+  componentDidUpdate(prevProps){
+    if (this.props === prevProps) {
+      this.getMyTriviaSet();
+      this.getMyTriviaCreated();
+      // this.getTriviaSet();
+    }
   }
   getTriviaSet = () => {
     axios.get('/api/TrivSet').then(res => {
       this.props.updateNewsAllList(res.data)
+      this.setState({
+        trivSetToMap: this.props.newsAllList
+      })
       // console.log('HContent, this.props.newAllList', this.props.newsAllList)
     })
     .catch(err => console.log('error at get TriviaSet', err))
@@ -70,15 +83,34 @@ class HContent extends Component {
     const value = e.target.value
     this.setState({[name]: value})
   }
-  makeTrue = () => {
-    return true;
+  handleSelect = (e) => {
+    let value = e.target.value
+    this.setState({
+      trivSwitch: value,
+      trivSetToMap: this.props[value],
+    });
+  }
+  propsBtn = () => {
+    console.log(this.props);
   }
 
-
   render() {
+    const {handleSelect} = this;
+    const {trivSetToMap} = this.state;
+    
+    const trivBtns = [
+      {value: 'newsAllList', text:'All Trivia'},
+      {value: 'newsMyList', text:'My Trivia Collection'},
+      {value:'newsMyListCreated', text:'My Trivia Sets Creations'}
+    ]
+    const triviaButtons = trivBtns.map(elem => {
+      return <button key={elem.name} value={elem.value} className={elem.value === this.state.trivSwitch ? 'btn' : 'btn-off'}onClick={handleSelect}>{elem.text}</button>
+    })
+    
     const{newsAllList,newsMyList,userId} = this.props;
-
-    const MyTrivSetView = newsMyList.map(elem =>(
+    console.log('right before my array, newsAllList', newsAllList)
+    console.log('trivSetToMap',trivSetToMap, typeof trivSetToMap)
+    const myTrivSetView = trivSetToMap.map(elem =>(
       <div key={elem.cat_id}>
         <HCSet
         elemId={elem.cat_id}
@@ -88,19 +120,18 @@ class HContent extends Component {
     ));
     const{trivSetName} = this.state;
     console.log('HContent props', this.props)
+    console.log('HContent state', this.state)
 
     return (
-      <div>
-        <h1>Host Content</h1>
-        {/* ALL TRIVIA SETS
-        {TrivSetView} */}
-        MY TRIVIA SETS
-        <div className='TrivBox'> 
-          {MyTrivSetView}
+      <div className='HContent'>
+        {/* <button onClick={this.propsBtn}>Check HContent.js Props</button> */}
+        <div className='TrivBtns'>
+          {triviaButtons}
         </div>
-        <button onClick={this.getTriviaSet}>Get All Trivia Sets Ever Made</button>
-        <button onClick={this.getMyTriviaSet}>Get My Trivia Sets (made & collected by me)</button>
-        <button onClick={this.getMyTriviaCreated}>Get Trivia Sets Created by me</button>
+        <div className='TrivBox'> 
+          {myTrivSetView}
+        </div>
+
         <div>
           <div>Create a new trivia set</div>
           <input type="text" name='trivSetName' value={trivSetName} onChange={this.handleChange}/>

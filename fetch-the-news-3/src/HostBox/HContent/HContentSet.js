@@ -1,12 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import './HContentSet.css'
+import axios from 'axios';
+import './HContentSet.css';
 
 class HContentSet extends Component {
   constructor(props){
     super(props)
     this.state ={
       editCheck: false,
+      editText: false,
+      tempTrivName: '',
     }
   }
 
@@ -14,7 +17,7 @@ class HContentSet extends Component {
     if (this.props.newsMyListCreated!== prevProps.newsMyListCreated) {
       const{elemId, elemName} = this.props;
       this.editCheck({elemId: elemId, elemName: elemName})
-      console.log('HCS component did mount, this.state.editCheck',this.state.editCheck)
+      console.log('HCS component did update, this.state.editCheck',this.state.editCheck)
     }
   }
   editCheck = (elem) => {
@@ -40,30 +43,45 @@ class HContentSet extends Component {
   }
   editTriviaSet = (catId, catName) => {
     console.log('catId', catId, 'catName',catName)
-    // axios.put(`/api/TrivSet`, {catId: this.state.userId,catName:catName})
+    axios.put(`/api/TrivSet/${catId}`, {catName:catName})
+      .then(res => {
+      console.log('HCS edit, res.data', res.data);
+    })
+    .catch(err => console.log('error at post editTriviaSet', err))
   }
   deleteTriviaSet = (myId, setId) => {
 
     axios.delete(`/api/TrivSet}`)
   }
+  handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+    this.setState({[name]: value})
+  }
   render() {
-    const{editCheck}=this.state;
-    const{elemName} = this.props;
+    const{editCheck, tempTrivName}=this.state;
+    const{elemId,elemName} = this.props;
     // const{newsAllList,newsMyList,userId} = this.props;
     // console.log('HContentSet, this.props',this.props)
     console.log('HContentSet, state',this.state)
 
     return (
       <div className='TrivSet'>
-        <div className='TrivText'>{elemName}</div>
-        { editCheck ?
+        { editCheck && editText ? 
           <div>
-            <button className='btns'>Edit</button>
-            <button className='btns'>Delete</button>
+          <input type="text" name='tempTrivName' value={tempTrivName} onChange={this.handleChange}/>
+          <button className='btn-sml' onClick={ () => this.editTriviaSet(elemId,elemName)}>Edit</button>
+          <button className='btn-sml'>Delete</button>
+        </div> 
+        editCheck ?
+          <div>
+            <div className='TrivText'>{elemName} </div>
+            <button className='btn-sml' onClick={ () => this.editTriviaSet(elemId,elemName)}>Edit</button>
+            <button className='btn-sml'>Delete</button>
           </div>
           : <div>
-              <button className='btns-dead'>Edit</button>
-              <button className='btns-dead'>Delete</button>
+              <button className='btn-off-sml'>Edit</button>
+              <button className='btn-off-sml'>Delete</button>
             </div>
           }
       </div>

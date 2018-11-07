@@ -6,9 +6,9 @@ export default class HostNav extends Component {
   render() {
     return (
       <div className='HostNav'>
-
+        <div className='NavGroup'></div>  
             <div className="NavItem">Logo</div>
-            <div className="NavGroup">
+            <div className="NavLink">
               <div className="NavItem">
                   <Link to='/'>Content</Link>
               </div>
